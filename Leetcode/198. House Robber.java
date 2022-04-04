@@ -22,7 +22,7 @@ class Solution {
     }
 }
 
-// Approach 1: Dynamic Programming - Optimized
+// Approach 2: Dynamic Programming - Optimized
 // Time complexity: O(N)
 // Space complexity: O(1)
 
