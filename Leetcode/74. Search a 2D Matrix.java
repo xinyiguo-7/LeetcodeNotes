@@ -1,37 +1,34 @@
-// One-pass Binary Search
-// Time Complexity: O(log N)
+// Time Complexity: O(N^2)
 // Space Complexity: O(1)
+// Approach: Just compare the first and last element to target to see if
+// it is in this row. If yes, then run binary search on this row.
 class Solution {
-    public int search(int[] nums, int target) {
-        int left = 0, right = nums.length - 1;
+    public boolean searchMatrix(int[][] matrix, int target) {
+
+        for(int i = 0; i < matrix.length; i++) {
+            if(matrix[i][0] <= target 
+               && matrix[i][matrix[i].length - 1] >= target) {
+                if(binarySearch(matrix[i], target) != -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public int binarySearch(int[] row, int target) {
+        int left = 0, right = row.length - 1;
         
         while(left <= right) {
             int mid = (left + right) / 2;
-            // on the basis of binary search, we need to decide
-            // whether the result is in non-rotated subarray or not.
-            if(target == nums[mid]) {
+            if(row[mid] == target) {
                 return mid;
+            } else if(row[mid] < target) {
+                left = mid + 1;
             } else {
-                // Either left or right subarray is rotated
-                // Left subarray is non-rotated
-                //  - if target within range, go left
-                //  - else, go right
-                // Right subarray is non-rotated
-                //  - if target within range, go right
-                //  - else, go left
-                if(nums[left] <= nums[mid]) {
-                    if(target >= nums[left] && target <= nums[mid]) {
-                        right = mid - 1;
-                    } else {
-                        left = mid + 1;
-                    }
-                } else {
-                    if(target >= nums[mid] && target <= nums[right]) {
-                        left = mid + 1;
-                    } else {
-                        right = mid - 1;
-                    }
-                }
+                right = mid - 1;
             }
         }
         return -1;
