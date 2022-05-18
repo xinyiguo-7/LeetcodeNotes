@@ -94,3 +94,40 @@ class Solution {
         return -1;
     }
 }
+
+// Approach 3: Use binary search to find the target index, then find tageted elements
+// around the target index.
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        if(nums.length == 0) {
+            return new int[] {-1, -1};
+        }
+        int left = 0, right = nums.length - 1;
+        int[] result = new int[] {-1, -1};
+        
+        while(left <= right) {
+            int mid = (left + right) / 2;
+            if(nums[mid] == target) {
+                result = findBoundry(nums, mid, target);
+                break;
+            } else if(nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return result; 
+    }
+    
+    public int[] findBoundry(int[] nums, int targetIndex, int target) {
+        int low = targetIndex;
+        while(low > 0 && nums[low - 1] == target) {
+            low--;
+        }
+        int high = targetIndex;
+        while(high < nums.length - 1 && nums[high + 1] == target) {
+            high++;
+        }
+        return new int[]{low, high};
+    }
+}
