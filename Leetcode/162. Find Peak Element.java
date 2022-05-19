@@ -50,3 +50,30 @@ class Solution {
         return -1;
     }
 }
+
+// Second trial on 05/18/2022
+class Solution {
+    public int findPeakElement(int[] nums) {
+        if(nums.length == 1)
+            return 0;
+        if(nums[0] > nums[1])
+            return 0;
+        if(nums[nums.length - 1] > nums[nums.length - 2])
+            return nums.length - 1;
+        
+        int left = 0, right = nums.length - 1;
+        while(left <= right) {
+            int mid = (left + right) / 2;
+            if((mid == left || nums[mid] > nums[mid - 1]) 
+               && (mid == right || nums[mid] > nums[mid + 1])) {
+                return mid;
+            } else if(nums[mid] > nums[mid + 1]) {  // Important condition for this algorithm
+                                                    // If the mid element is greater than the one next to it, there is a peak element in the left subarray
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return -1;
+    }
+}
