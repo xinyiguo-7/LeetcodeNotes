@@ -73,3 +73,37 @@ class Solution {
         return true;
     }
 }
+
+// Updated on 05/20/2022.
+// Time Complexity: O(M + N)
+// Space Complexity: O(M + N)
+// Approach: Use string builder. Easier to implement than Two Pointers method.
+class Solution {
+    public boolean backspaceCompare(String s, String t) {
+        StringBuilder sb1 = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
+        
+        for(int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == '#') {
+                if(sb1.length() != 0) {
+                    sb1.deleteCharAt(sb1.length() - 1);
+                }
+            } else {
+                sb1.append(s.charAt(i));
+            }
+        }
+        
+        for(int j = 0; j < t.length(); j++) {
+            if(t.charAt(j) == '#') {
+                if(sb2.length() != 0) {
+                    sb2.deleteCharAt(sb2.length() - 1);
+                }
+            } else {
+                sb2.append(t.charAt(j));
+            }
+        }
+        
+        // Have to compare string instead of string builder directly
+        return sb1.toString().equals(sb2.toString());
+    }
+}

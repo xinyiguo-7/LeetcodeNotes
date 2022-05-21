@@ -30,3 +30,33 @@ class Solution {
         return sentinel.next;
     }
 }
+
+
+// Updated on 05/19/2022
+// Time Complexity: O(N)
+// Space Complexity: O(1)
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head == null || head.next == null) {
+            return head;
+        }
+        ListNode sentinel = new ListNode();
+        sentinel.next = head;
+        ListNode prevNode = sentinel;
+        ListNode nextNode = head.next;
+        while(head != null && head.next != null) {
+            nextNode = head.next;
+            if(head.val == nextNode.val) {
+                while(nextNode != null && head.val == nextNode.val) {
+                    head = head.next;
+                    nextNode = nextNode.next;
+                }
+                prevNode.next = nextNode;
+            } else {
+                prevNode = prevNode.next;
+            }
+            head = head.next;
+        }
+        return sentinel.next;
+    }
+}
