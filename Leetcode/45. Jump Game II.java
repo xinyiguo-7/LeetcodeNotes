@@ -47,3 +47,29 @@ class Solution {
         return jump;
     }
 }
+
+// Updated 05/30/2022
+// Approach: DP - Bottom-up ?
+// Time Complexity: O(N^2)
+// Space Complexity: O(N)
+class Solution {
+    public int jump(int[] nums) {
+        int[] dp = new int[nums.length];
+        // Fill the memory stack with max possible value
+        Arrays.fill(dp, nums.length);
+        // Initialize the last element to 0
+        dp[nums.length - 1] = 0;
+        
+        // Going back, find the local minimum steps for each index
+        for(int i = nums.length - 2; i >= 0; i--) {
+            int localMin = nums.length;
+            for(int j = nums[i]; j > 0; j--) {
+                if(i + j < nums.length) {
+                    localMin = Math.min(localMin, dp[i + j] + 1);
+                }
+            }
+            dp[i] = localMin;
+        }
+        return dp[0];
+    }
+}

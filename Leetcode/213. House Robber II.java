@@ -36,3 +36,31 @@ class Solution {
         return maxAmount[nums.length-1];
     }
 }
+
+// Updated on 05/30/2022
+// Time Complexity: O(N)
+// Space Complexity: O(N)
+// Approach: Dynamic Programming - Tabulation
+// Run DP loop separately on 0th -> second to last element and 1st -> last element.
+// Then return the maximum of these two result.
+class Solution {
+    public int rob(int[] nums) {
+        if(nums.length == 1) {
+            return nums[0];
+        }
+        int[] maxAmount1 = new int[nums.length];
+        int[] maxAmount2 = new int[nums.length + 1];
+        maxAmount1[0] = 0;
+        maxAmount1[1] = nums[0];
+        maxAmount2[1] = 0;
+        maxAmount2[2] = nums[1];
+        
+        for(int i = 1; i < nums.length - 1; i++) {
+            maxAmount1[i + 1] = Math.max(maxAmount1[i], nums[i] + maxAmount1[i - 1]);
+        }
+        for(int j = 2; j < nums.length; j++) {
+            maxAmount2[j + 1] = Math.max(maxAmount2[j], nums[j] + maxAmount2[j - 1]);
+        }
+        return Math.max(maxAmount1[nums.length - 1], maxAmount2[nums.length]);
+    }
+}

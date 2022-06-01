@@ -1,4 +1,3 @@
-
 // My Approach: Dynamic Programming - Tabulation
 // Time Complexity: O(N)
 // Space Complexity: O(N)
@@ -23,5 +22,34 @@ class Solution {
             index++;
         }
         return reached[nums.length - 1];
+    }
+}
+
+// Updated on 05/30/2022
+// Time Complexity: O(N)
+// Space Complexity: O(N)
+
+class Solution {
+    public boolean canJump(int[] nums) {
+        // Edge cases to consider: An array of length 1 can be reached no matter what.
+        // An array with length greater than 1 but 0 at the start cannot be reached.
+        if(nums.length == 1) {
+            return true;
+        } else if(nums[0] == 0) {
+            return false;
+        }
+        int stepsLeft = nums[0];
+        int n = nums.length;
+        
+        for(int i = 1; i < n; i++) {
+            stepsLeft--;
+            stepsLeft = Math.max(stepsLeft, nums[i]);
+            if(i + stepsLeft >= n - 1) {
+                return true;
+            } else if(stepsLeft == 0) {
+                return false;
+            }
+        }
+        return false;
     }
 }
