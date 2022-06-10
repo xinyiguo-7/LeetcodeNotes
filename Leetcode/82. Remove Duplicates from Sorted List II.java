@@ -60,3 +60,32 @@ class Solution {
         return sentinel.next;
     }
 }
+
+// Updated on 06/07/2022
+// Time Complexity: O(N)
+// Space Complexity: O(1)
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head == null) {
+            return null;
+        }
+        ListNode sentinel = new ListNode();
+        sentinel.next = head;
+        ListNode prev = sentinel;
+        
+        // Be mindful of edge cases: head and head.next should not be null to avoid runtime error
+        while(head != null && head.next != null) {
+            if(head.val == head.next.val) {
+                while(head.next != null && head.val == head.next.val) {
+                    head = head.next;
+                }
+                prev.next = head.next;
+                head = head.next;
+            } else {
+                prev = prev.next;
+                head = head.next;
+            } 
+        }
+        return sentinel.next;
+    }
+}
