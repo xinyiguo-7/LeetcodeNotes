@@ -28,7 +28,7 @@ class Solution {
 // Updated on 05/30/2022
 // Time Complexity: O(N)
 // Space Complexity: O(N)
-
+// Approach: Greedy
 class Solution {
     public boolean canJump(int[] nums) {
         // Edge cases to consider: An array of length 1 can be reached no matter what.
