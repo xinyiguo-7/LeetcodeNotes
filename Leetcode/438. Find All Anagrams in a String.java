@@ -10,7 +10,7 @@ class Solution {
       for (char ch : p.toCharArray()) {
         pCount[(int)(ch - 'a')]++;
       }
-  
+    
       List<Integer> output = new ArrayList();
       // sliding window on the string s
       for (int i = 0; i < ns; ++i) {
