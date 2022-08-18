@@ -1,39 +1,51 @@
-// Time Complexity: O(N * log(Max - Min))
-// Space Complexity: O(1)
+// Time Complexity: O(N)  - every node only traversed once
+// Space Complexity: O(N)
 class Solution {
-
-    public int kthSmallest(int[][] matrix, int k) {
+    public int findClosestLeaf(TreeNode root, int k) {
+        // Use depth-first search to record each node and edges
+        HashMap<TreeNode, List<TreeNode>> graph = new HashMap<>();
+        dfs(graph, root, null); // A null node will be added to key set
         
-        int n = matrix.length;
-        int start = matrix[0][0], end = matrix[n - 1][n - 1];
-        while(start < end) {
-            int mid = start + (end - start) / 2;
-            // first number is smallest and second is largest
-            int[] smallLargePair = {matrix[0][0], matrix[n - 1][n - 1]};
-            int count = countLessEqual(matrix, mid, smallLargePair);
-            
-            if(count == k) return smallLargePair[0];
-            
-            if(count < k) start = smallLargePair[1];
-            else end = smallLargePair[0];
-        }
-        return start;
-    }
-    
-    private int countLessEqual(int[][] matrix, int mid, int[] smallLargePair) {
-        int count = 0;
-        int n = matrix.length, row = n - 1, col = 0;
+        Queue<TreeNode> q = new LinkedList<>();
+        // Use a seen set to contain traversed node and speed up bfs
+        Set<TreeNode> seen = new HashSet<>();
         
-        while(row >= 0 && col < n) {
-            if(matrix[row][col] > mid) {
-                smallLargePair[1] = Math.min(smallLargePair[1], matrix[row][col]);
-                row--;
-            } else {
-                smallLargePair[0] = Math.max(smallLargePair[0], matrix[row][col]);
-                count += row + 1;
-                col++;
+        for(TreeNode node : graph.keySet()) {
+            if(node != null && node.val == k) {
+                q.add(node);
+                seen.add(node);
             }
         }
-        return count;
+        
+        while(!q.isEmpty()) {
+            TreeNode node = q.poll();
+            if(node != null) {
+                if(graph.get(node).size() <= 1) {
+                    return node.val;
+                }
+                for(TreeNode next : graph.get(node)) {
+                    if(!seen.contains(next)) {
+                        seen.add(next);
+                        q.add(next);
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+    
+    public void dfs(HashMap<TreeNode, List<TreeNode>> graph, TreeNode node, TreeNode parent) {
+        if(node != null) {
+            if(!graph.containsKey(node)) {
+                graph.put(node, new LinkedList<TreeNode>());
+            }
+            if(!graph.containsKey(parent)) {
+                graph.put(parent, new LinkedList<TreeNode>());
+            }
+            graph.get(parent).add(node);
+            graph.get(node).add(parent);
+            dfs(graph, node.left, node);
+            dfs(graph, node.right, node);
+        }
     }
 }

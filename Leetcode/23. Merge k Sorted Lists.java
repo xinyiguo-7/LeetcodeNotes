@@ -44,6 +44,7 @@ class Solution {
             int minIndex = 0;
             int minVal = Integer.MAX_VALUE;
             end = true;
+            // find min value in k heads
             for(int i = 0; i < lists.length; i++) {
                 if(lists[i] != null) {
                     if(lists[i].val < minVal) {
