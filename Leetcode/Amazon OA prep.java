@@ -5,28 +5,41 @@ class Solution {
         int[] arr2 = new int[26];
 
         for(int i = 0; i < categories.length(); i++) {
-        arr2[categories.charAt(i) - 'a']++;
-        }
-        Int count = 0;
-        Int res = 0;
-        for(int j = 0; j < categories.length(); j++) {
-            if(arr1[categories.charAt(i) - 'a'] == 0 && arr2[categories.charAt(i) - 'a'] > 1) {
-                count++;
-            } else if (arr2[categories.charAt(i) - 'a'] <= 1) {
-                count--;
+            arr2[categories.charAt(i) - 'a']++;
             }
-            if(count > k) {
-                res++;
+            Int count = 0;
+            Int res = 0;
+            for(int j = 0; j < categories.length(); j++) {
+                if(arr1[categories.charAt(i) - 'a'] == 0 && arr2[categories.charAt(i) - 'a'] > 1) {
+                    count++;
+                } else if (arr2[categories.charAt(i) - 'a'] <= 1) {
+                    count--;
+                }
+                if(count > k) {
+                    res++;
+                }
+                arr1[categories.charAt(i) - 'a']++;
+                arr2[categories.charAt(i) - 'a']--;
             }
-            arr1[categories.charAt(i) - 'a']++;
-            arr2[categories.charAt(i) - 'a']--;
-        }
     }
 }
 
+// #2
+class Solution {
+    public int minimumLag(int[] center, int[] destination) {
+        int N = center.length;
+        Arrays.sort(center);
+        Arrays.sort(destination);
+        int minLag = 0;
+        for(int i = 0; i < N; i++) {
+            minLag += Math.abs(center[i], destination[i]);
+        }
+        return minLag;
+    }
+}
 // #3
 class Solution {
-    public int[] solution(int[] A, int k) {
+    public int[] getSmallestInefficiencies(int[] A, int k) {
         Arrays.sort(A);
         int n = A.length;
         var minheap = new PriorityQueue<int[]>(Comparator.comparingInt(o -> o[0]));
@@ -158,7 +171,7 @@ class Solution {
 
 // #8
 class Solution {
-    public int findUniqueValue(int[] experience) {
+    public int findUniqueValues(int[] experience) {
         int N = experience.length;
         Set<Double> appeared = new HashSet<>();
         for(int i = 0; i < N / 2; i++) {
@@ -173,7 +186,7 @@ class Solution {
 
 // #9
 class Solution {
-    public String isSimilar(String[] oldPasswords, String[] newPasswords) {
+    public String similarPassword(String[] oldPasswords, String[] newPasswords) {
         int N = oldPasswords.length;
         for(int i = 0; i < N; i++) {
             String newPW = newPasswords[i];
@@ -195,7 +208,7 @@ class Solution {
 
 // #10
 class Solution {
-    public int minSegments(String s) {
+    public int findMinSegments(String s) {
         int[] appeared = new int[26];
         int res = 0;
         for(char ch : s.toCharArray()) {
@@ -211,7 +224,7 @@ class Solution {
 
 // #11
 class Solution {
-    public int[] afterLocations(int[] locations, int[] moveFrom, int[] moveTo) {
+    public int[] moveDataLocation(int[] locations, int[] moveFrom, int[] moveTo) {
         for(int i = 0; i < moveFrom; i++) {
             for(int j = 0; j < locations.length; j++) {
                 if(locations[j] == moveFrom[i]) {
@@ -227,7 +240,7 @@ class Solution {
 // #12
 class Solution {
     public SinglyLinkedListNode findLongestList(SinglyLinkedListNode head) {
-        SinglyLinkedListNode result = new SinglyLinkedListNode(heal.val);
+        SinglyLinkedListNode result = new SinglyLinkedListNode(head.val);
         SinglyLinkedListNode curr = result;
         int maxLen = 0;
         while(head != null) {
@@ -244,7 +257,36 @@ class Solution {
                 result = curr;
                 maxLen = curLen;
             }
+            head = head.next;
         }
+        return result;
+    }
+}
+
+// Constant extra space
+class Solution {
+    public SinglyLinkedListNode findLongestList(SinglyLinkedListNode head) {
+        SinglyLinkedListNode result = head;
+        SinglyLinkedListNode ptr = result;
+        int maxLen = 0;
+        while(head != null) {
+            SinglyLinkedListNode ptr = head;
+            int curLen = 1;
+            while(head != null && head.next != null && head.val >= head.next.val) {
+                head = head.next;
+                curLen++;
+            }
+            if(curLen > maxLen) {
+                result = ptr;
+                maxLen = curLen;
+            }
+            head = head.next;
+        }
+        ptr = result;
+        for(int i = 0; i < maxLen - 1; i++) {
+            ptr = ptr.next;
+        }
+        ptr.next = null;
         return result;
     }
 }
@@ -285,9 +327,33 @@ class Solution {
     }
 }
 
+// #15
+class Solution {
+    public int findMaxStockPricesSum(int[] stock_prices, int k) {
+        int left = -1;
+        int res = -1, kSum = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();    // store price and its last appeared index
+        
+        for(int i = 0; i < stock_prices.length; i++) {
+            int price = stock_prices[i];
+            if(map.containsKey(price) && map.get(price) > left) {
+                left = map.get(price);
+            }
+            map.put(price, i);
+            kSum += price;
+            if(i - k >= 0) {
+                kSum -= stock_prices[i - k];
+            }
+            if(i - k >= left) {
+                res = Math.max(res, kSum);
+            }
+        }
+        return res;
+    }
+}
 // #16
 class Solution {
-    public int minPresses(String message) {
+    public int minKeypadClickCount(String message) {
         // Don't care about what character each frequence # corresponds to
         int[] freq = new int[26];
         for(char ch : message.toCharArray()) {
@@ -348,6 +414,19 @@ class Solution {
     }
 }
 
+// #18
+class Solution {
+    public int minNumCharstoAdd(String searchWord, String resultWord) {
+        int s = 0, r = 0;
+        while(s < searchWord.length() && r < resultWord.length()) {
+            if(searchWord.charAt(s) == resultWord.charAt(r)) {
+                r++;
+            }
+            s++;
+        }
+        return resultWord.length() - r;
+    }
+}
 // #19
 // LC 424 for reference
 // class Solution {
@@ -391,3 +470,134 @@ class Solution {
     }
 }
 
+// #20
+class Solution {
+    public int getMaxFreqDeviation() {
+        // Maintain a map of freq of characters in the string
+        Map<Character, Integer> map = new HashMap<>();
+        for(char c : s.toCharArray())
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        
+        int max = 0;
+        // Check for every possible pair of characters in the map with the assumption that the one char is greater than the other
+        // In the following piece of code, assuming c2 count is greater than c1
+        for(char c1 : map.keySet()){
+            for(char c2 : map.keySet()){
+                // If both the characters are same then we don't explore any further
+                if(c1 == c2)
+                    continue;
+                int c1Freq=0, c2Freq=0;
+                int c1Remaining=map.get(c1); // Keep track of the remaining c1 chars
+                
+                // Iterate through all the characters in the string
+                for(char c : s.toCharArray()){
+                    if(c == c1){
+                        c1Freq++;
+                        c1Remaining--;
+                    }
+                    if(c == c2)
+                        c2Freq++;
+
+                    // If c2-count < c1-count then we reset the counters, only if we know there are more c1 chars to come in the iteration
+                    // c1Remaining check is required for the test case "baa" and c1=b && c2=a. We don't reset the counters if there are no more c1 chars left					
+                    if(c2Freq < c1Freq && c1Remaining > 0) {
+                        c2Freq=0;
+                        c1Freq=0;
+                    }
+                    
+                    // Calculate variance of current substring and update max accordingly
+                    if(c1Freq > 0 && c2Freq > 0)
+                        max = Math.max(max, c2Freq-c1Freq);
+                }
+            }
+        }
+        return max;
+    }
+}
+
+// #21
+class Solution {
+    public int countMaximumOperations(String s, String t) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        for(char ch : s.toCharArray()) {
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
+        }
+        int maxOp = 0;
+        for(char ch : t.toCharArray()) {
+            maxOp = Math.min(maxOp, map.getOrDefault(ch));
+        }
+    }
+}
+
+// #22
+// might TLE
+class Solution {
+    public int minNumberTrips(int[] weights) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int weight : weights)
+            map.put(weight, map.getOrDefault(weight,0)+1);
+        Set<Integer> weightsKey = map.keySet();
+        int ans = 0;
+        for(int w : weightsKey) {
+            int cnts = map.get(w);
+            if(cnts < 2) 
+                return -1;
+            if(cnt % 3 == 0) 
+                ans += cnts/3;
+            else 
+                ans += cnts/3 + 1;
+        }
+        return ans;
+    }
+}
+
+// Use sorting + math
+class Solution {
+    public int minNumberTrips(int[] weights) {
+        Arrays.sort(weights);
+        int ans = 0;
+        for(int i = 0; i < weights.length; i++) {
+            int count = 1;
+            while(i + 1 < weights.length && weights[i] == weights[i + 1]) {
+                count++;
+                i++;
+            }
+            if(count < 2) 
+                return -1;
+            if(count % 3 == 0) 
+                ans += count/3;
+            else 
+                ans += count/3 + 1;
+        }
+    }
+}
+
+// For reference
+// def getMinimumTrips(weights):
+//     ct = {}
+//     for w in weights:
+//         ct[w] = ct.get(w, 0) + 1
+
+//     ret = 0
+//     # the idea is that we want to deliver 3 packages as many times
+//     # as possible, because it's greater than 2, so it'll result
+//     # in fewer deliveries
+//     for w, c in ct.items():
+//         if c == 1:
+//             # can never deliver 1 package
+//             return -1
+//         elif c % 3 == 0:
+//             # 3 perfectly divides the count, so just deliver
+//             # three packages each time
+//             ret += c // 3
+//         elif c % 3 == 1:
+//             # c == 1 mod 3, so we can deliver 2 packages twice
+//             # and then it'll be divisible by 3, so we can deliver
+//             # 3 packages for the rest of the count
+//             ret += ((c - 4) // 3) + 2
+//         else:
+//             # c == 2 mod 3, so we can deliver 2 packages once
+//             # and then it'll be divisible by 3
+//             ret += ((c - 2) // 3) + 1
+
+//     return ret
