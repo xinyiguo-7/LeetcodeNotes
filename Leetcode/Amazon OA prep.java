@@ -1,14 +1,14 @@
 // #1
 class Solution {
-    public void solution() {
+    public void findNumWaysToSplit() {
         int[] arr1 = new int[26];
         int[] arr2 = new int[26];
 
+        int count = 0;
+        int res = 0;
         for(int i = 0; i < categories.length(); i++) {
             arr2[categories.charAt(i) - 'a']++;
             }
-            Int count = 0;
-            Int res = 0;
             for(int j = 0; j < categories.length(); j++) {
                 if(arr1[categories.charAt(i) - 'a'] == 0 && arr2[categories.charAt(i) - 'a'] > 1) {
                     count++;
@@ -61,7 +61,7 @@ class Solution {
 }
 
 class Solution {
-    static int[] solve(int[] A, int k){
+    static int[] getSmallestInefficiencies(int[] A, int k){
         Arrays.sort(A);
         int lo = 0, hi = (int)1e8;
         while(lo < hi){ // find max bound 
@@ -96,7 +96,7 @@ class Solution {
 
 // #4
 class Solution {
-    public ListNode solution(ListNode head, String[][] oprations) {
+    public ListNode getShoppingCart(ListNode head, String[][] oprations) {
         for(String[] op : oprations) {
             if(op[0].equals("PUSH_HEAD")) {
                 ListNode newHead = new ListNode(op[1]);
@@ -118,6 +118,30 @@ class Solution {
     }
 }
 
+// #5 getMinMoves
+// {
+//     int n = plates.size();
+//     int mn=INT_MAX,mx=INT_MIN;
+//     vector arr = plates;
+//     int min_idx,max_idx;
+//     for(int i=0;imx)
+//         {
+//             mx = arr[i];
+//             max_idx = i;
+//         }
+//         if(arr[i]min_idx)
+//         {
+//             ans += min_idx+(n-1-max_idx);
+//         }
+//         else
+//         {
+//         ans += min_idx;
+//         max_idx++;
+//         ans += (n-1-max_idx);
+//         }
+//     return ans;
+// } 
+
 // #6
 class Solution {
     public int getpMatchingScore(String username1, String username2, int p) {
@@ -138,12 +162,13 @@ class Solution {
             count = username2.length();
             start++;
         }
+        return pScore;
     }
 }
 
 // #7
 class Solution {
-    public int maximumCount(String s) {
+    public int findMaximumMaximaCount(String s) {
         int[] freq = new int[26];
         int[] maxCountFreq = new int[26];
         int maxCountIdx = 0;
@@ -452,7 +477,7 @@ class Solution {
 // }
 
 class Solution {
-    public int maxKScore(int[] stock_prices, int k) {
+    public int getkConsistency(int[] stock_prices, int k) {
         int maxFreq = 0;
         int maxLen = 0, start = 0;
         HashMap<Integer, Integer> map = new HashMap<>();    // price, frequency
