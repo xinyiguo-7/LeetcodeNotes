@@ -29,6 +29,7 @@ class Solution {
 }
 
 // A cleaner solution using the same approach
+// Find a larger temperature --> keep a decreasing stack
 class Solution {
     public int[] dailyTemperatures(int[] temperatures) {
         int n = temperatures.length;

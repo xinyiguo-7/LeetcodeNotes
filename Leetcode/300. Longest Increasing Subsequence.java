@@ -16,8 +16,8 @@ class Solution {
         
         for(int i = 0; i < nums.length; i++) {
             for(int j = 0; j < i; j++) {
-                if(nums[i] > nums[j]) { // The length of longest increasing subsequence might increase
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                if(nums[i] > nums[j]) { // The length of longest increasing subsequence ending at i might increase
+                    dp[i] = Math.max(dp[i], dp[j] + 1);     // Length of subsequence ending at j + 1, or current length
                 }
             }
         }
@@ -29,3 +29,4 @@ class Solution {
         return res;
     }
 }
+
