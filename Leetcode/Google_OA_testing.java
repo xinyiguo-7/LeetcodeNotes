@@ -4,51 +4,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Collections;
 
-public class Google_OA_prep {
-    // Count the number of occurrences for each segments
-    // If there is a segment occurred >= 4 times, return 0
-    // Count the number of segments that occurred 2 or 3 times, if the number is < 2, return -1
-    // Sort the segments occurred 2 or 3 times, return the min difference between 2 adjacent ones
-    public static int solution(int[] segments) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for(int n : segments) {
-            map.put(n, map.getOrDefault(n, 0) + 1);
-        }
-        System.out.println(map.toString());
-        List<Integer> twoOrThree = new ArrayList<>();
-        for(int key : map.keySet()) {
-            int freq = map.get(key);
-            if(freq >= 4) {
-                return 0;
+// One fragment of a given integer N can be selected and its digits reversed (replaced with a right to left 
+// version of themselves). What is the maximum number that can beobtained this way from integer N?
+// Write a function:
+// class Solution { public int solution(int N); }
+// that, given an integer 1 <= N <= 1,000,000,000, returns the greatest integer that can be created by reversing a subset of its digits.
+// Examples:
+// • Given N = 5340, [he answer is 5430. Fragment "34" can be reversed to "43".
+// • Given N = 2043, the answer is 4023. Fragment "204" can be reversed to "402"
+// • Given N = 620, the answer is 620. There is no need to reverse any fragment.
+public class Google_OA_testing {
+
+    public static int solution(int N) {
+        String strN = Integer.toString(N);
+        char[] charN = strN.toCharArray();
+        int r = 0, l = 0;
+        int len = strN.length();
+        
+        for(int i = 1; i < charN.length; i++) {
+            if(Integer.valueOf(charN[i]) > Integer.valueOf(charN[i - 1])) {
+                r = i;
             }
-            // occurrences[map.get(key)]++;
-            if(freq == 2 || freq == 3) {
-                twoOrThree.add(key);
+        }
+        for(int j = 0; j < charN.length; j++) {
+            if(Integer.valueOf(charN[j]) < Integer.valueOf(charN[r])) {
+                l = j;
+                break;
             }
         }
-        if(twoOrThree.size() < 2) {
-            return -1;
-        }
-        Collections.sort(twoOrThree);
-        int minDiff = twoOrThree.get(twoOrThree.size() - 1) - twoOrThree.get(0);
-        for(int i = 1; i < twoOrThree.size(); i++) {
-            minDiff = Math.min(minDiff, twoOrThree.get(i) - twoOrThree.get(i - 1));
-        }
-        return minDiff;
+        // System.out.println("r: " + r + ", l: " + l);
+        StringBuilder reversedSb = new StringBuilder(strN.substring(l, r + 1));
+        String reversed = reversedSb.reverse().toString();
+        // System.out.println("Reversed: " + reversed);
+        return Integer.valueOf(strN.substring(0, l) + reversed + strN.substring(r + 1, len));
     }
 
     public static void main(String[] args) {
-        // System.out.println("Hello!");
-        int[] arr1 = {2, 2, 2, 2, 21};
-        System.out.println("Array: [2, 2, 2, 2, 21]");
-        System.out.println(solution(arr1));
+        int N1 = 5340;
+        System.out.println("N1: " + N1);
+        System.out.println(solution(N1));
 
-        int[] arr2 = {911, 1, 3, 1000, 1000, 2, 2, 999, 1000, 911};
-        System.out.println("Array: [911, 1, 3, 1000, 1000, 2, 2, 999, 1000, 911]");
-        System.out.println(solution(arr2));
+        int N2 = 2043;
+        System.out.println("N2: " + N2);
+        System.out.println(solution(N2));
 
-        int[] arr3 = {4, 1, 1, 1, 3};
-        System.out.println("Array: [4, 1, 1, 1, 3]");
-        System.out.println(solution(arr3));
+        int N3 = 620;
+        System.out.println("N3: " + N3);
+        System.out.println(solution(N3));
     }
 }
