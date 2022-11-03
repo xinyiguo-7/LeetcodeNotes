@@ -168,3 +168,20 @@ public static int solution(int N) {
     // System.out.println("Reversed: " + reversed);
     return Integer.valueOf(strN.substring(0, l) + reversed + strN.substring(r + 1, len));
 }
+
+// Pick 3 digits from N to form the maximum integer
+public static int solution(int N) {
+    PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+    while(N != 0) {
+        pq.add(N % 10);
+        N /= 10;
+    }
+    int res = 0;
+    for(int i = 2; i >= 0; i--) {
+        int mult = (int)Math.pow(10, i);
+        res += pq.poll() * mult;
+    }
+    return res;
+}
+
+// Do the two words rhyme?

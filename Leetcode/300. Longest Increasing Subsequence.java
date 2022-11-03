@@ -30,3 +30,28 @@ class Solution {
     }
 }
 
+// 11/02/2022
+// Recurrence: f(i) = 1 + max(for all (j, i): f(j))
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        dp[0] = 1;
+        
+        for(int i = 1; i < n; i++) {
+            int max = 0;
+            for(int j = 0; j < i; j++) {
+                if(nums[j] < nums[i]) {
+                    max = Math.max(dp[j], max);
+                }
+            }
+            dp[i] = max + 1;
+        }
+        
+        int res = 0;
+        for(int d : dp) {
+            res = Math.max(res, d);
+        }
+        return res;
+    }
+}
