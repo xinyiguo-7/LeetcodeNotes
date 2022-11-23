@@ -26,3 +26,20 @@ class Solution {
         return depth;
     }
 }
+
+// Time Complexity: O(N)
+// Space Complexity: Worst case: O(N), Best case: O(logN) for balanced tree
+// Approach: DFS
+
+class Solution {
+    public int maxDepth(TreeNode root) {
+        return dfs(root);
+    }
+    
+    public int dfs(TreeNode curNode) {
+        if(curNode == null) {
+            return 0;
+        }
+        return 1 + Math.max(dfs(curNode.left), dfs(curNode.right));
+    }
+}

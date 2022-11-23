@@ -14,3 +14,24 @@ class Solution {
         return root;
     }
 }
+
+// Time Complexity: O(N)
+// Space Complexity: O(N)
+// Approach: DFS
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        return invert(root);
+    }
+    
+    // inverts children and returns itself
+    public TreeNode invert(TreeNode node) {
+        if(node == null) {
+            return null;
+        }
+        TreeNode left = invert(node.left);
+        TreeNode right = invert(node.right);
+        node.left = right;
+        node.right = left;
+        return node;
+    }
+}
