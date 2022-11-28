@@ -56,4 +56,31 @@ class Solution {
 
         return longestStreak;
     }
+    
+}
+
+// 11/27/2023
+// Use union find
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        // Map<Integer, Integer> map = new HashMap<>();    // root - number
+        Set<Integer> set = new HashSet<>();
+        
+        for(int n : nums) {
+            set.add(n);
+        }
+        int maxLen = 0;
+        for(int n : nums) {
+            if(set.contains(n - 1)) {
+                int curNum = n;
+                int curLen = 1;
+                while(set.contains(curNum - 1)) {
+                    curNum = curNum -1;
+                    curLen++;
+                }
+                maxLen = Math.max(curLen, maxLen);
+            }
+        }
+        return maxLen;
+    }
 }
